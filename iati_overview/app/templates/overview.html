@@ -1,0 +1,112 @@
+<!-- verbose {{#verbose}}{{{comment}}}{{/verbose}} -->
+<html>
+<head>
+<title>Viewpoints</title>{{{exhibit}}}{{{jquery}}}{{{onloadscript}}}
+
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{recorgs_list}}/{{recorgs_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{provorgs_list}}/{{provorgs_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{sectors_list}}/{{sectors_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{recipients_list}}/{{recipients_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{date_list}}/{{date_view}}?group_level=2" type="application/json" />
+
+<link rel="exhibit/data" href="/{{reference_db}}/_design/{{reference_app}}/{{country_coordinates}}" type="application/json"/>
+
+<link rel="shortcut icon" href="{{shortcut_icon}}">
+<link rel="stylesheet" href="{{stylesheet}}" type="text/css" media="screen, print">
+</head>
+
+<body onload="{{{onload}}}">{{{zebrastyler}}}
+
+<H1>International Aid Viewpoints</H1>
+	<!-- the default collection is transaction_items  -->
+	<div ex:role="collection" ex:itemTypes="transaction">								</div>
+	<div ex:role="collection" ex:itemTypes="receiving country" 		id="rcountry_items"></div>
+	<div ex:role="collection" ex:itemTypes="receiving organisation" id="recorg_items">	</div>
+	<div ex:role="collection" ex:itemTypes="providing organisation" id="provorg_items">	</div>
+	<div ex:role="collection" ex:itemTypes="sector" 				id="sector_items">	</div>
+	<div ex:role="collection" ex:itemTypes="year" 					id="year_items">	</div>
+
+	<!-- other collections are bound to transaction_items to include them in facetting behavior -->
+
+<table id="overview_table">
+<tr id="view_row">
+
+</td>
+
+<td ex:role="viewPanel">
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Countries" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "rcountry_items"
+
+		ex:columns=			"
+		concat('<a class=activity_link href=\'/{{main_db}}/_design/{{main_app}}/_show/with/specs?template=dimensions&slice=transaction_by_rcountry&fact=', .label,'\' target=', .label,'>',.a_country_name,'</a>'),
+		.geo_code.label,	
+		concat('/{{reference_db}}/_design/{{geo_app}}/', .geo_code.label,'.gif'),
+		.a_country_count"
+		
+		ex:columnLabels=	"Country,	Code, Flag, # Activities"
+		ex:columnFormats=	"list, 		list ,image,	list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Received by organisation" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "recorg_items"
+
+		ex:columns=			"
+		concat('<a class=activity_link href=\'/{{main_db}}/_design/{{main_app}}/_show/with/specs?template=dimensions&slice=transaction_by_recorg&fact=', .label,'\' target=', .label,'>',.t_recorg_name,'</a>'),
+		
+		.t_recorg_count"		
+		
+		ex:columnLabels=	"Organisation,	# Transactions"
+		ex:columnFormats=	"list, 			list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "for Sectors" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "sector_items"
+
+		ex:columns=	"
+		concat('<a class=activity_link href=\'/{{main_db}}/_design/{{main_app}}/_show/with/specs?template=dimensions&slice=transaction_by_sector&fact=', .label,'\' target=', .label,'>',.t_sector_name,'</a>'),
+		
+		.t_sector_count"
+		
+		ex:columnLabels=	"Sector,	# Transactions"
+		ex:columnFormats=	"list, 			list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Funded by organisation" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "provorg_items"
+
+		ex:columns=	"
+		concat('<a class=activity_link href=\'/{{main_db}}/_design/{{main_app}}/_show/with/specs?template=dimensions&slice=transaction_by_provorg&fact=', .label,'\' target=', .label,'>',.t_provorg_name,'</a>'),
+		.t_provorg_count"
+		
+		ex:columnLabels=	"Organisation,	# Transactions"
+		ex:columnFormats=	"list, 			list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "by Year" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "year_items"
+
+		ex:columns=	"
+		concat('<a class=activity_link href=\'/{{main_db}}/_design/{{main_app}}/_show/with/specs?template=dimensions&slice=transaction_by_year&fact=', .label,'\' target=', .label,'>',.label,'</a>'),
+		.year_count"
+		
+		ex:columnLabels=	"Year,	# Transactions"
+		ex:columnFormats=	"list, 			list"
+		>
+	</div>
+	{{{exhibit_logo}}}
+
+	</td>
+       </tr>
+   </table>
+</body>
+</html>

@@ -1,0 +1,45 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	line-height: 2;
+	color: #222;
+	background-image:
+		url('/iati/_design/overview/style/Nivocer_web-background.png');
+	background-position: bottom left;
+	background-repeat: no-repeat;
+	background-color: #FFFAFA;
+	//
+	Snow
+}
+
+#contents {
+	margin: 1in;
+	color: #708090; //
+	SlateGray display: table;
+	width: auto; //
+	border: 1px solid #666666;
+	border-spacing: 5px; /*cellspacing:poor IE support for  this*/
+	/* border-collapse:separate;*/
+}
+
+.divRow {
+	display: table-row;
+	width: auto;
+}
+
+.key_ {
+	float: left; /*fix for  buggy browsers*/
+	display: table-column;
+	width: 400px;
+	background-color: #F5F5F5;
+	padding: 0 9px 0 9px;
+}
+
+.value_ {
+	color: #B22222;
+	float: left; /*fix for  buggy browsers*/
+	display: table-column;
+	width: 800px;
+	background-color: #F5F5F5;
+	padding: 0 9px 0 9px;
+}

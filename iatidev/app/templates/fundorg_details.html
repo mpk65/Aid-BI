@@ -1,0 +1,145 @@
+<!-- http://projects.csail.mit.edu/wibit/wiki/index.php?title=SimileResources -->
+<!-- http://simile-widgets.org/wiki/Examples_of_Simile_Widgets#Exhibit -->
+<!-- http://simile.mit.edu/wiki/Exhibit/Template/HTML_Page -->
+<html>
+<head>
+<title>Funding Organisation Activity Detail</title>
+
+<!-- http://simile-widgets.org/wiki/Getting_Started_with_Exhibit -->
+<!-- http://simile.mit.edu/wiki/Exhibit/For_Authors -->
+
+<!-- logic -------------------------------------------- -->
+<!-- http://simile.mit.edu/wiki/Exhibit/Expressions -->
+<script src="http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js" type="text/javascript"></script>
+<script src="http://api.simile-widgets.org/exhibit/2.2.0/extensions/timeplot/timeplot-extension.js"></script>
+<script src="http://www.ensemble.ac.uk/simile/extensions/api/scripts/data/importers/jsonx-importer.js" type="text/javascript" ></script>
+
+<script type="text/javascript">
+    var timeGeometer = function(grid) {
+        return new Timeplot.DefaultTimeGeometry({
+            gridColor: grid,
+            axisLabelsPlacement: "top"
+        });
+    };
+
+    var valueGeometer = function(grid) {
+        return new Timeplot.DefaultValueGeometry({
+            gridColor: grid,
+            axisLabelsPlacement: "left",
+            gridType: "short",
+            min: 0,
+            max: 1000000
+        });
+    };
+</script>
+
+<script>
+function onload(){
+		document.getElementById('info').onclick = function() {
+	        $.get('./activity/' + $('#activity_couch_doc_id').html(), function(data) {
+	  $('#info').html(data);
+	});
+	    };
+// force clickbehavior on document.getElementById("info");
+//	    document.getElementById('info').click();
+}
+</script>
+
+
+<!-- content -------------------------------------------- -->
+<!-- http://simile.mit.edu/wiki/Exhibit/Understanding_Exhibit_Database -->
+<!-- http://simile.mit.edu/wiki/Exhibit/Template/JSON_Data_File -->
+
+<!--  link rel="exhibit/data" href="./_list/transaction_items/activity_index?group_level=9&startkey=[%2247122-0715-AGO-04C-X%22]&endkey=[%2247122-0715-AGO-04C-X\ufff0%22]" type="application/json" / -->
+<link rel="exhibit/data" type="application/jsonx" href="http://127.0.0.1:5984/iati_usd/_design/exhibit/_list/transaction_items_by_fundorg/fundorg_index?group_level=9&startkey=[%22{{fundorg_code}}%22]&endkey=[%22{{fundorg_code}}\ufff0%22]" ex:converter="converter"/>
+
+<script type="text/javascript">
+function converter(json) {
+//  var items = json.items;
+//  for(var i=0;i&lt;items.length;i++) {
+//    var it = items[i];
+//  }
+  $('#activity_couch_doc_id').html(json.items[0].doc_id);
+  $('#activity_row').html(json.items[0].rid);
+  $('#activity_identifier').html(json.items[0].fundorg);
+
+  return json;
+}
+</script>
+
+<!-- styles -------------------------------------------- -->
+<link rel="shortcut icon" href="http://iatiregistry.org/images/favicon.ico">
+<link rel="stylesheet" href="http://iatiregistry.org/css/iati.css" type="text/css" media="screen, print">
+<link rel="stylesheet" href="http://iatiregistry.org/fonts/fonts.css" type="text/css" media="screen, print">
+
+<style>
+  body {
+    margin: 							1in;
+       }
+       
+</style>
+
+</head>
+
+<body onload="onload();">
+
+<!-- Activity Info -->
+
+<H1><span id="activity_identifier">Identifier</H1>
+
+Couch doc: <b><span id="activity_couch_doc_id" class="activity">This will be replaced by the id of the document that is going to be loaded</span></b> 
+			describing activityrow <b><span id="activity_row" class="activity">This will be replaced by the iati identifier</span></b><p>
+
+<div id="info" class="activity">Activity Info</div>
+
+<!-- End of Activity Info -->
+
+<!-- collection is used to specify a subset of items; used by views -------------------------------------------- -->
+<!-- http://simile.mit.edu/wiki/Exhibit/2.0/Collections -->
+
+	<div ex:role="collection" id="transactions" ex:itemTypes="transaction"></div>
+
+<!-- end of collection -->
+
+<!-- TabularView organises items in a table ---------------------------------------------------------------------------- -->
+<!-- http://simile.mit.edu/wiki/Exhibit/2.0/Tabular_View -->
+<!-- http://simile.mit.edu/wiki/Exhibit/2.0/Functions -->
+<!-- ['label','id','rid','doc_id','ttype','tdate','amount'] -->
+
+	<div ex:role="view"
+		ex:viewClass="Tabular"
+		ex:collectionID="transactions" 
+		ex:columns=			".label, .id,	.rid,	.doc_id, .ttype, .tdate, .amount"
+		ex:columnLabels=	"label,	id,		rid,	doc_id,	ttype,	tdate,	amount"
+		ex:columnFormats=	"list,	list,	list,	list,	list,	list,	list"
+		ex:sortColumn="3"
+		ex:border="0"
+		ex:sortAscending="false">
+	</div>
+	
+<!-- end of TabularView  -->
+
+
+<!-- Timeplot  -->
+<!-- ref: http://simile.mit.edu/wiki/Exhibit/2.0/Timeplot_View  -->
+<!-- example: http://www.simile-widgets.org/timeplot/examples/simile/index.html NOT EXHIBIT BUT WIDGET ONLY -->
+<!-- example: http://ryanlee.org/2008/03/rsy/rivalry.html -->
+
+	<div ex:role="view" 
+   		ex:viewClass="Timeplot"
+   		ex:label="Transactions" 
+   		ex:seriesConnector=".label"
+   		ex:pointTime=".tdate"
+   		ex:pointValue=".amount"
+        ex:timeplotHeight="300"
+        ex:gridColor="#666666"
+        ex:timeGeometry="timeGeometer"
+        ex:valueGeometry="valueGeometer"
+		ex:colorKey=".ttype"
+		ex:colorCoder="subject-colors"
+ 	</div>
+
+<!-- end of Timeplot -->
+
+</body>
+</html>

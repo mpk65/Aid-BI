@@ -1,0 +1,122 @@
+<link rel="exhibit/data" type="application/jsonx" href="http://127.0.0.1:5984/iati_usd/_design/exhibit/_list/transaction_items/activity_index?group_level=9&startkey=[%2247122-0715-AGO-04C-X%22]&endkey=[%2247122-0715-AGO-04C-X\ufff0%22]" ex:converter="converter"/>
+
+
+function(doc, req) {
+	  var Mustache = require('vendor/couchapp/lib/mustache');
+	  var data = {
+	    title: "Aid Activity"
+	  };
+	  var template = "<h1>{{title}}</h1>";
+
+	  return Mustache.to_html( template, data );
+	}
+function(doc, req) {
+	  var Mustache = require('vendor/couchapp/lib/mustache');
+	  var data = {
+	    title: "Aid Activity"
+	  };
+	  var template = require('_attachments/mustache.html');
+
+	  return Mustache.to_html( template, data );
+	}
+
+function(doc, req) {
+	  var Mustache = require('vendor/couchapp/lib/mustache');
+	  var data = {
+	    title: "Joe",
+	    calc: function() {
+	      return 2 + 2;
+	    }
+	  };
+	  var template = "{{title}} spends {{calc}}";
+
+	  return Mustache.to_html( template, data );
+	}
+
+function(doc, req) {
+	var mustache = require("vendor/couchapp/lib/mustache");
+	var data = {'identifier' : 'pipo'};
+	return mustache.to_html(this._attachments.activity.html, data);
+}
+	return "<p>Aye aye, " + req.query.parrot + "!</p>";
+	//var mustache = require("vendor/couchapp/lib/mustache");
+	
+	//var data = {'identifier' : req.query};
+	//return data;
+	//return mustache.to_html (this._attachments.activity, data);
+
+
+<script src="http://static.simile.mit.edu/exhibit/api-2.1.0/exhibit-api.js" type="text/javascript"></script>
+<script src="http://static.simile.mit.edu/exhibit/extensions-2.1.0/time/time-extension.js" type="text/javascript"></script>
+
+          ex:configuration="timelineConfig">
+          
+          concat('http://simile.mit.edu/repository/exhibit/branches/2.0/src/webapp/site/examples/flags/images/', .code, '.png')
+          
+                     border:     1px solid #ddd;
+          
+          
+          //['type','label','country','donor','start','end','startyear','endyear','code','amount']
+          
+type: activity
+id: activity_identifier
+label: activity_title
+prop_donor
+prop_recipient
+prop_startyear
+prop_endyear
+
+	for (var i in doc){doc_array.push(i)};
+	doc_array.sort();
+	for (var i in doc_array){send('\"' + doc_array[i] + '\",<br>')};
+"concat('<a href=./_view/activity_index?group_level=9&startkey=[%22',.id,'%22]&endkey=[%22',id,'\ufff0%22]>',.label,'</a>'),
+
+  .keyy {
+    width:								50%;
+    border-style:                       dotted;
+    border-width:                       1px;
+    background-color:                   whitesmoke;
+}
+  .valuee {
+    width:								50%;
+    border-style:                       dotted;
+    border-width:                       1px;
+    background-color:                   coral;
+}
+  .pair {
+    width:								100%;
+}
+
+<!-- 		"concat('<a href=\'./_view/activity_index?group_level=9&startkey=[%22',.imporg_code,'%22]&endkey=[%22',.imporg_code,'\ufff0%22]\'>',.label,'</a>'), -->
+
+
+<!-- 
+	<div ex:role="view"
+                ex:viewClass="Timeplot"
+                ex:label="Winning Percentage"
+                ex:seriesConnector=".subject"
+                ex:pointTime=".year"
+                ex:pointValue=".winningPercentage"
+                ex:timeplotHeight="300"
+                ex:gridColor="#666666"
+                ex:timeGeometry="timeGeometer"
+                ex:valueGeometry="valueGeometer"
+		ex:colorKey=".subject"
+		ex:colorCoder="subject-colors"
+                >
+                </div>
+      -->           
+                <!-- {
+			"uri" :               "http://simile.mit.edu/2008/03/rsvy#Yankees1903",
+			"losses" :            "62",
+			"rank" :              "4",
+			"wins" :              "72",
+			"type" :              "Season",
+			"year" :              "1903",
+			"subject" :           "Yankees",
+			"label" :             "Yankees 1903",
+			"winningPercentage" : ".537",
+			"wonWorldSeries" :    "no"
+		} -->
+		
+		

@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>Aid Activities</title>
+
+<script src="http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js" type="text/javascript"></script>
+<script src="http://api.simile-widgets.org/exhibit/2.2.0/extensions/time/time-extension.js" type="text/javascript"></script>
+
+<link rel="exhibit/data" href="./_list/json4exhibit/timeline?limit=500" type="application/json" />
+<link rel="shortcut icon" href="http://iatiregistry.org//images/favicon.ico">
+<link rel="stylesheet" href="http://iatiregistry.org/css/iati.css" type="text/css" media="screen, print">
+<link rel="stylesheet" href="http://iatiregistry.org/fonts/fonts.css" type="text/css" media="screen, print">
+</head> 
+
+<body>
+
+<script>
+   var timelineConfig = {
+       timelineConstructor: function (div, eventSource) {
+           div.style.height="100%";
+           div.style.width="80%";
+           div.style.fontSize = "8pt";
+
+           var theme = Timeline.ClassicTheme.create();
+           theme.event.track.height = 1;
+           theme.event.track.gap = 1;
+           theme.event.bubble.width = 500;
+           var date = "Sun Jul 01 2012 13:00:00 GMT-0600"
+           var bandInfos = [
+               Timeline.createBandInfo({
+                   width:          "90%",
+                   intervalUnit: Timeline.DateTime.DECADE,
+                   intervalPixels: 400,
+                   eventSource:    eventSource,
+                   date:           date,
+                   theme:          theme
+               }),
+               Timeline.createBandInfo({
+                   width:          "10%",
+                   intervalUnit: Timeline.DateTime.DECADE,
+                   intervalPixels: 100,
+                   eventSource:    eventSource,
+                   date:           date,
+                   overview:       true,
+                   theme:          theme
+               })
+           ];
+           bandInfos[1].syncWith = 0;
+           bandInfos[1].highlight = true;
+//bandInfos[1].eventPainter.setLayout(bandInfos[0].eventPainter.getLayout());
+            tl = Timeline.create(div, bandInfos, Timeline.HORIZONTAL);
+            return tl;
+        }
+    }
+    </script>
+         <table><td>
+     <div ex:role="view" 
+          ex:viewClass="Timeline" 
+          ex:start=".start"
+          ex:end=".end"
+          ex:colorKey=".country"
+          ex:showFooter=false
+          ex:label="View Timeline"
+          ex:selectCoordinator="composer"
+          ex:configuration="timelineConfig">
+        </div>
+</td><td width="25%">
+	<div ex:role="facet" 
+	ex:expression=".country" 
+	ex:facetLabel="Country">
+	</div>
+        
+	<div ex:role="facet" 
+	ex:expression=".donor" 
+	ex:facetLabel="Donor">
+	</div>
+</td></table>
+</body>
+ </html>

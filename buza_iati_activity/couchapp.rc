@@ -1,0 +1,1 @@
+{"env":{"staging":{"db":"http:\/\/ouchdb:07chdb@127.0.0.1:5984\/buza_iati"},"default":{"db":"http:\/\/ouchdb:07chdb@127.0.0.1:5984\/buza_iati"},"production":{"db":"http:\/\/ouchdb:07chdb@iati.iriscouch.com:5984\/buza_iati"}}}

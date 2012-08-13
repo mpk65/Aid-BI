@@ -1,0 +1,141 @@
+iati_identifier	47122-1115-AFG-04C-X
+title	NVS
+description	Program delivred in Afghanistan using Pentavalent
+date_end_actual	12/31/16
+date_start_actual	1/1/12
+status	Implementation
+activity_recipient_country	Afghanistan
+activity_recipient_location	Afghanistan
+activity_reporting_org	The Global Alliance for Vaccination and Immunisation
+activity_funding_org	The Global Alliance for Vaccination and Immunisation
+aid_type	Core contributions to multilateral institutions
+finance_type	Aid grant excluding debt reorganisation
+item_sector	Basic health care
+item_value	12500000
+source_file	packages/2012-04-22/gavi-af.xml
+contact_email	othomas@gavialliance.org
+contact_organisation	GAVI Alliance
+activity_funding_org_ref	47122
+activity_funding_org_type	40
+activity_recipient_country_code	AF
+activity_recipient_location_code	AF
+activity_reporting_org_ref	47122
+activity_reporting_org_type	40
+aid_type_code	B02
+finance_type_code	110
+item_sector_code	12220
+item_sector_vocabulary	DAC
+status_code	2
+transaction_date_iso	12/31/12
+transaction_id	143195
+transaction_type	Commitment
+transaction_type_code	C
+currency	USD
+rowid	47122-1115-AFG-04C-X-AF-C-2012-12-31-340279
+amount_USD	12500000
+value_date	12/31/12
+date_end_planned	null
+date_start_planned	null
+activity_recipient_region	null
+activity_extending_org	null
+activity_implementing_org	null
+provider_org	null
+receiver_org	null
+flow_type	null
+tied_status	null
+activity_website	null
+contact_mailing_address	null
+contact_telephone	null
+related_activity_title	null
+activity_extending_org_ref	null
+activity_extending_org_type	null
+activity_id	null
+activity_implementing_org_ref	null
+activity_implementing_org_type	null
+activity_lang	null
+activity_last_updated	null
+activity_recipient region_code	null
+activity_recipient_region_code	null
+flow_type_code	null
+package_id	null
+provider_org_ref	null
+provider_org_type	null
+receiver_org_ref	null
+receiver_org_type	null
+tied_status_code	null
+transaction.disbursement_channel_code	null
+transaction_date	null
+transaction_description	null
+
+{
+   "_id": "db2976a2a65f27122f60eea84f001025",
+   "_rev": "1-99c072d9f4ec87323e7920ef86c81f10",
+   "iati_identifier": "SE-6-7100062601-MN-23040",
+   "value_date": "1/1/22",
+   "date_end_planned": "12/1/22",
+   "activity_recipient_region": null,
+   "status_code": 2,
+   "finance_type": null,
+   "activity_recipient_location": "Mongolia",
+   "activity_funding_org_type": 10,
+   "receiver_org": null,
+   "currency": "USD",
+   "item_sector_code": 23040,
+   "source_file": "packages/2012-04-22/sida-mn.xml",
+   "activity_recipient_region_code": null,
+   "rowid": "SE-6-7100062601-MN-23040-MN-D-2022-01-01-329903",
+   "transaction_type": "Disbursement",
+   "tied_status": null,
+   "item_value": 0,
+   "receiver_org_ref": null,
+   "item_sector_vocabulary": "DAC",
+   "flow_type_code": 10,
+   "contact_telephone": null,
+   "transaction.disbursement_channel_code": null,
+   "activity_extending_org_type": 10,
+   "date_start_planned": "9/1/03",
+   "activity_extending_org_ref": "SE-6",
+   "activity_last_updated": null,
+   "activity_reporting_org_ref": "SE-6",
+   "activity_recipient region_code": null,
+   "transaction_date": null,
+   "transaction_description": null,
+   "activity_implementing_org": null,
+   "transaction_type_code": "D",
+   "transaction_id": 139613,
+   "activity_funding_org_ref": "SE-2",
+   "status": null,
+   "related_activity_title": "MNG Rehab Transm Grid concessionary credit-MNG Rehab Transm syst",
+   "activity_id": null,
+   "description": "Rehabilitation of the transmission system in Mongolia, credit         financing.",
+   "activity_recipient_location_code": "MN",
+   "title": "MNG Rehab Transm Grid concessionary credit-MNG Rehab Transm Grid",
+   "finance_type_code": null,
+   "activity_extending_org": "Swedish International Development Cooperation Agency",
+   "item_sector": "Electrical transmission/ distribution",
+   "transaction_date_iso": "1/1/22",
+   "provider_org": null,
+   "aid_type": null,
+   "receiver_org_type": null,
+   "contact_email": null,
+   "activity_implementing_org_type": null,
+   "activity_reporting_org": "Swedish International Development Agency",
+   "contact_mailing_address": null,
+   "contact_organisation": null,
+   "activity_recipient_country": "Mongolia",
+   "tied_status_code": null,
+   "provider_org_ref": null,
+   "activity_implementing_org_ref": null,
+   "activity_reporting_org_type": 10,
+   "date_end_actual": null,
+   "date_start_actual": null,
+   "package_id": null,
+   "activity_recipient_country_code": "MN",
+   "activity_funding_org": "Ministry of Foreign Affairs",
+   "activity_lang": null,
+   "aid_type_code": null,
+   "flow_type": "ODA",
+   "activity_website": null,
+   "provider_org_type": null,
+   "amount_USD": 0
+}
