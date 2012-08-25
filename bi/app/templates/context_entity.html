@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>{{title}}</title>
+<link rel="shortcut icon" href="{{shortcut_icon}}">
+
+{{{jquery}}}
+
+<script type="text/javascript">
+	function wiki_guess() {
+		console.log('wiki_guess');
+		$(".entity").click(
+				function() {
+					var wiki_url = 'http://en.wikipedia.org/wiki/'
+							+ $(this).html().replace(/\s/g, '_');
+					console.log(wiki_url);
+					window.open(wiki_url);
+				});
+	}
+</script>
+<link rel="stylesheet" href="{{stylesheet_document}}" type="text/css" media="screen, print">
+
+</head>
+<body class="document" onload="wiki_guess()">
+	<H1 style="color: FireBrick" class="title">{{title}}</H1>
+	<div id="url"><div id="url"><a href="{{doc_src}}" target="doc_source"><img src="{{img_src}}"/></a></div>
+	
+	<div id="contents_activities">
+
+	<ul id="activities">
+	{{#activity_array}}
+	<li id="{{.}}" class="activity"><a href="/{{store}}/_design/{{app}}/_show/{{activity_view}}/{{.}}" target="{{.}}">{{.}}</a></li>
+	{{/activity_array}}
+	</ul>	
+
+	</div>
+
+	<div id="contents_document">
+
+	{{{document}}}
+	
+	</div>
+</body>
+</html>

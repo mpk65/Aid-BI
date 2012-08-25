@@ -1,0 +1,260 @@
+<!-- verbose {{#verbose}}{{{comment}}}{{/verbose}} -->
+<html>
+<head>
+<title>{{slice_label}}: {{fact}}</title>{{{exhibit}}}{{{map}}}{{{chart}}}{{{time}}}{{{timeplot}}}{{{jquery}}}{{{onloadscript}}}
+
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{facts_schema}}/{{data}}?group_level=0" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{transactions_list}}/{{transactions_view}}?group=true{{{fact_limit}}}{{#fact_boolean}}&startkey=[&quot;{{fact}}&quot;]&endkey=[&quot;{{fact}}ZZZ&quot;]{{/fact_boolean}}" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{activities_list}}/{{activities_view}}?group=true{{{fact_limit}}}{{#fact_boolean}}&startkey=[&quot;{{fact}}&quot;]&endkey=[&quot;{{fact}}ZZZ&quot;]{{/fact_boolean}}" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{recorgs_list}}/{{recorgs_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{provorgs_list}}/{{provorgs_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{sectors_list}}/{{sectors_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{recipients_list}}/{{recipients_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{periods_list}}/{{periods_view}}?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{activities_db}}/_design/{{activities_app}}/_list/{{date_list}}/{{date_view}}?group_level=2" type="application/json" />
+
+<link rel="exhibit/data" href="/{{documents_db}}/_design/{{documents_app}}/_list/item_report_/fact_report_?group=true" type="application/json" />
+<link rel="exhibit/data" href="/{{documents_db}}/_design/{{documents_app}}/_list/item_entity/fact_entity?group=true" type="application/json" />
+
+<link rel="exhibit/data" href="/{{reference_db}}/_design/{{geo_app}}/{{country_coordinates}}" type="application/json"/>
+
+<link rel="shortcut icon" href="{{shortcut_icon}}">
+<link rel="stylesheet" href="{{stylesheet}}" type="text/css" media="screen, print">
+</head>
+
+<body>{{{zebrastyler}}}
+
+<H1>International Aid Activities</H1>
+<H3>{{slice_label}}: {{fact}}</H3>
+	<!-- the default collection is transaction_items  -->
+	<div ex:role="collection" ex:itemTypes="transaction"></div>
+
+	<!-- other collections are bound to transaction_items to include them in facetting behavior -->
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier" 							id="activity_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".t_recorg_code" 							id="recorg_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".t_provorg_code" 							id="provorg_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".t_sector_code" 							id="sector_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier.a_country_code" 				id="rcountry_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier!reported_activity" 			id="report_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier!reported_activity.entity" 	id="entity_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier.a_country_code.geo_code" 	id="geo_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".a_identifier.a_period_date" 				id="period_items"></div>
+	<div ex:role="collection" ex:baseCollectionID = "default" ex:expression=".t_date" 									id="year_items"></div>
+	<div ex:role="collection" ex:itemTypes="provisiontime" id="provisiontime_items"></div>
+	
+<table id="dimensions_table">
+<tr id="view_row">
+<td id="facetpanel_left">
+
+	<!-- facets control the default collection (transaction_items)  -->
+    <div ex:height="8em" 	ex:role="facet" ex:facetClass="TextSearch"></div>
+	<div ex:height="8em" 	ex:role="facet" ex:expression=".a_identifier.a_title"			ex:facetLabel="Activity"></div>
+	<div ex:height="4em" 	ex:role="facet" ex:expression=".a_identifier.a_status"			ex:facetLabel="Status"></div>
+	<div ex:height="18em" 	ex:role="facet" ex:expression=".t_date"							ex:facetLabel="Year"></div>
+	<div ex:height="3em" 	ex:role="facet" ex:expression=".t_type"							ex:facetLabel="Transaction"></div>
+	<div ex:height="3em" 	ex:role="facet" ex:expression=".t_provorg_code.t_provorg_name"	ex:facetLabel="Funded by"></div>
+</td>
+
+<td ex:role="viewPanel">
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Provision time" ex:border="0" ex:rowStyler="zebraStyler"
+		ex:collectionID = "provisiontime_items"
+		ex:columns=	".label,.duration"
+		ex:columnLabels=	"Set,	Provision time"
+		ex:columnFormats=	"list, 	list"
+		>
+	</div>
+
+	<!-- this table shows providing organisations, as bound to transaction_items )  -->
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Funded by" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "provorg_items"
+
+		ex:columns=	".t_provorg_name,
+		.t_provorg_count, count(!t_provorg_code),		
+		add(foreach(!t_provorg_code,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!t_provorg_code,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		
+		ex:columnLabels=	"Organisation,	# Org (reduce),	# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 			list, 			list,			list,				list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Activities" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "activity_items"
+
+		ex:columns=	
+		"concat('<a class=activity_link href=\'/{{activities_db}}/_design/{{activity_app}}/_show/activity_full/', .label,'\' target=', .label,'>', .a_title,'</a>')
+		,	count(!a_identifier),		
+		add(foreach(!a_identifier,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!a_identifier,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		ex:columnLabels=	"Activity,		# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 			list,			list,				list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Activity Periods" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "period_items"
+
+		ex:columns=			"!a_period_date.a_title,	.a_start_planned,	.a_start_actual,	.a_end_planned, 	.a_end_actual"
+		
+		ex:columnLabels=	"Activity,			Start planned,	 	Start actual,		End planned,		End actual"
+		ex:columnFormats=	"list, 				list,			 	list,				list,				list"
+		>
+	</div>
+
+     <div ex:role="view" ex:viewClass="Timeline" ex:label="Periods Timeline"
+ 	
+          ex:collectionID="period_items"  
+
+          ex:start=".a_start_planned"
+          ex:end=".a_end_planned"
+          ex:topBandPixelsPerUnit="50"
+          ex:colorKey="!a_period_date.a_title"
+          >
+        </div>    
+	
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Transactions" ex:border="0" ex:rowStyler="zebraStyler"
+
+		ex:columns=			".t_date,	.t_type,	.t_amount,		count(.t_amount),	.label"		
+		ex:columnLabels=	" Year, 	Type, 		Amount,			Count, 				Transaction/Activity/Year"
+		ex:columnFormats=	"list,		list,		list,			list,				list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Transaction Years" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "year_items"
+
+		ex:columns=			".label,	.year_count, count(!t_date),		
+		add(foreach(!t_date,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!t_date,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		
+		ex:columnLabels=	"Year,	# Transactions (reduce),# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 			list, 			list,			list,				list"
+		>
+	</div>
+
+    <div ex:role="view" ex:viewClass="Exhibit.ScatterPlotView" ex:label="Transactions Scatterplot"
+    
+		ex:collectionID="transaction_items"
+
+        ex:x=".t_date"
+        ex:xLabel="Year"
+
+        ex:y=".t_amount"
+        ex:yLabel="Amount"
+
+        ex:cell=".t_type"
+        ex:colorKey=".t_type"
+		ex:colorCoder="subject-colors"
+          
+        >
+
+ 	</div>
+ 	
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Countries" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "rcountry_items"
+
+		ex:columns=			".a_country_name,.geo_code.label,	
+		concat('/{{reference_db}}/_design/{{geo_app}}/', .geo_code.label,'.gif'),
+		.a_country_count, count(!a_country_code!a_identifier),		
+		add(foreach(!a_country_code!a_identifier,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!a_country_code!a_identifier,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		
+		ex:columnLabels=	"Country,	Code, Flag, # Country (reduce),	# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 		list ,image,	list, 			list,			list,				list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Map" ex:mapHeight="600" ex:label="Countries Map"
+        
+        ex:latlng=".a_identifier.a_country_code.geo_code.latlng"
+		ex:center="8,38"
+        ex:icon="concat('/{{reference_db}}/_design/{{geo_app}}/', .a_identifier.a_country_code.geo_code.label, '.gif')"
+        ex:iconLegendLabel=".a_identifier.a_country_code.a_country_name"
+        ex:shape="square"
+        ex:shapeWidth="30"
+        ex:shapeHeight="25"
+        ex:colorKey=".a_identifier.a_country_code.display"
+        ex:zoom="3"
+        >
+     </div>
+     
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Sectors" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "sector_items"
+
+		ex:columns=			".t_sector_name,	.t_sector_count, count(!t_sector_code),		
+		add(foreach(!t_sector_code,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!t_sector_code,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		
+		ex:columnLabels=	"Organisation,	# Org (reduce),	# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 			list, 			list,			list,				list"
+		>
+	</div>
+
+     <div ex:role="view" ex:viewClass="Exhibit.BarChartView" ex:label="Sectors chart"
+          
+		ex:collectionID="sector_items"
+        ex:x="add(foreach(!t_sector_code,(if(contains(.t_type, 'C'), .t_amount, 0))))"
+        ex:xLabel="Total Commitments"
+        ex:color = "#B22222"  
+        ex:y="value.display"
+        ex:yLabel="Sectors"
+        >
+ 	</div>
+	
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Received by" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "recorg_items"
+
+		ex:columns=			".t_recorg_name,	.t_recorg_count, count(!t_recorg_code),		
+		add(foreach(!t_recorg_code,(if(contains(.t_type, 'C'), .t_amount, 0)))),
+		add(foreach(!t_recorg_code,(if(contains(.t_type, 'D'), .t_amount, 0))))"
+		
+		ex:columnLabels=	"Organisation,	# Org (reduce),	# Transactions,	Total commitment, Total disbursement"
+		ex:columnFormats=	"list, 			list, 			list,			list,				list"
+		>
+	</div>
+
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Related Entities" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "entity_items"
+
+		ex:columns=			".kind,	.label,	
+		concat('<a class=report_link href=\'/{{documents_db}}/_design/{{document_app}}/_show/context_entity/', !entity.title ,'#',.offset,'\' target=', !entity.title,'>', .description,'</a>')"
+		ex:columnLabels=	"Kind,		Name, 	Found in"
+		ex:columnFormats=	"list, 		list, 	list"
+		>
+	</div>
+	
+	<div ex:role="view" ex:viewClass="Tabular" ex:label = "Reports" ex:border="0" ex:rowStyler="zebraStyler"
+	
+		ex:collectionID = "report_items"
+
+		ex:columns=			".label,.title"
+		
+		ex:columnLabels=	"Activity report,	Title"
+		ex:columnFormats=	"list, 		list"
+		>
+	</div>
+
+	</td>
+	<!-- facets control the default collection (transaction_items)  -->
+	<td id="facetpanel_right">
+	<div ex:height="8em" ex:role="facet" ex:expression=".a_identifier.a_country_code.a_country_name" 	ex:facetLabel="Country/Region"></div>
+	<div ex:height="8em" ex:role="facet" ex:expression=".t_sector_code.t_sector_name"					ex:facetLabel="Sector"></div>
+	<div ex:height="8em" ex:role="facet" ex:expression="concat(.t_recorg_code.t_recorg_name,' in ',.a_identifier.a_country_code.a_country_name)"	ex:facetLabel="Received by"></div>
+	<div ex:height="8em" ex:role="facet" ex:expression=".a_identifier!reported_activity.entity.label" 	ex:facetLabel="Related Entities"></div>
+	<div ex:height="8em" ex:role="facet" ex:expression=".a_identifier!reported_activity.title" 			ex:facetLabel="Report"></div>
+
+	{{{exhibit_logo}}}
+           </td>
+       </tr>
+   </table>
+</body>
+</html>
