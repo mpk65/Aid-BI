@@ -4,7 +4,7 @@ import os
 class Filemgt(object): 
 
     def __init__(self):
-        self.main_dir       = "/Users/michielkuijper/Desktop/data_iati/"
+        self.main_dir       = "/Your/main/dir/"
         self.docx_dir       = self.main_dir + "d1_docx/"
         self.pdf_dir        = self.main_dir + "d1_pdf/"
         self.txt_dir        = self.main_dir + "d2_txt/"
