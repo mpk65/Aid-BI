@@ -1,4 +1,5 @@
 function(head, req) {
+	var time_in = new Date().getTime();
 	var row; var labels = ['id','label','t_sector_name','display'];
 	send('{\"types\"\: {\"sector\" \: {\"pluralLabel\"\: \"sectors\"}},\"items\"\:[');
 	while(row = getRow()){
@@ -8,5 +9,7 @@ function(head, req) {
 			};
 			send('\"t_sector_count\"\:' + row.value + '},')
 		}; 
-	send('{}]}')
+		var time_out = new Date().getTime();
+		var t = time_out - time_in;
+		send('{\"type\"\:\"duration\",\"id\"\:\"'+t+'\",\"label\"\:\"'+t+'\"}]}')
 }

@@ -1,0 +1,50 @@
+/Applications/Couchbase Single Server.app/Contents/Resources/couchdbx-core/etc/couchdb/local.ini
+
+======== changes to local.ini (restart server to affect)
+
+// http://wiki.apache.org/couchdb/ExternalProcesses
+
+;Including [log] and [update_notification] for context
+
+[log]
+level = info
+
+[external]
+test = python /usr/local/src/couchdb/test.py
+
+[httpd_db_handlers]
+_test = {couch_httpd_external, handle_external_req, <<"test">>}
+
+[update_notification]
+;unique notifier name=/full/path/to/exe -with "cmd line arg"
+
+==== begin of python file (chmod ugo+x <file>)
+
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
+
+import sys
+
+try:
+    # Python 2.6
+    import json
+except:
+    # Prior to 2.6 requires simplejson
+    import simplejson as json
+
+def requests():
+    # 'for line in sys.stdin' won't work here
+    line = sys.stdin.readline()
+    while line:
+        yield json.loads(line)
+        line = sys.stdin.readline()
+
+def respond(code=200, data={}, headers={}):
+    sys.stdout.write("%s\n" % json.dumps({"code": code, "json": data, "headers": headers}))
+    sys.stdout.flush()
+
+def main():
+    for req in requests():
+        respond(data={"qs": req["query"]})
+
+if __name__ == "__main__":
+    main()

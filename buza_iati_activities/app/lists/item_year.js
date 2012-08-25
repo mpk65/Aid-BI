@@ -1,4 +1,5 @@
 function(head, req) {
+	var time_in = new Date().getTime();
 	var row; var labels = ['id','label','t_type'];
 	send('{\"types\"\: {\"year\" \: {\"pluralLabel\"\: \"years\"}},'+
 			'\"properties\"\: {\"a_identifier\" \: {\"valueType\"\: \"item\"},'+
@@ -13,5 +14,7 @@ function(head, req) {
 			};
 			send('\"year_count\"\:' + row.value + '},')
 		}; 
-	send('{}]}')
+		var time_out = new Date().getTime();
+		var t = time_out - time_in;
+		send('{\"type\"\:\"duration\",\"id\"\:\"'+t+'\",\"label\"\:\"'+t+'\"}]}')
 }

@@ -1,4 +1,5 @@
 function(head, req) {
+	var time_in = new Date().getTime();
 	var row; var labels = ['t_recorg_code','t_provorg_code','a_country_code','t_sector_code','id','label','a_identifier','t_type','t_date'];
 	send('{\"types\"\: {\"transaction\" \: {\"pluralLabel\"\: \"transactions\"}},'+
 			'\"properties\"\: {\"a_identifier\" \: {\"valueType\"\: \"item\"},'+
@@ -14,5 +15,7 @@ function(head, req) {
 			};
 			send('\"t_amount\"\:' + row.value + '},')
 		}; 
-	send('{}]}')
+		var time_out = new Date().getTime();
+		var t = time_out - time_in;
+		send('{\"type\"\:\"duration\",\"id\"\:\"'+t+'\",\"label\"\:\"'+t+'\"}]}')
 }

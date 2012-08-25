@@ -1,4 +1,5 @@
 function(head, req) {
+	var time_in = new Date().getTime();
 	var row; var labels = ['id','label','a_title','a_description','a_status','a_period_date','a_country_code','a_report'];
 	send('{\"types\"\: {\"activity\" \: {\"pluralLabel\"\: \"activities\"}},'+
 			'\"properties\"\: {\"a_country_code\" \: {\"valueType\"\: \"item\"},'+
@@ -12,5 +13,7 @@ function(head, req) {
 			};
 			send('\"a_count\"\:' + row.value + '},')
 		}; 
-	send('{}]}')
+	var time_out = new Date().getTime();
+	var t = time_out - time_in;
+	send('{\"type\"\:\"duration\",\"id\"\:\"'+t+'\",\"label\"\:\"'+t+'\"}]}')
 }
